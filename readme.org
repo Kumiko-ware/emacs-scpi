@@ -1,0 +1,9 @@
+* This is a library for accessing measure instruments from EMACS
+
+It allows:
+- Send and receive from equipment which supports SCPI
+- Send and receive from equipment that support VXI-11
+- LeCroy oscilloscopes
+- Vötsch temperature chambers
+- Generate LaTeX measurement reports
+- Generate graphics with GNU Plot
