@@ -1,8 +1,94 @@
 * This is a library for accessing measure instruments from EMACS
 
-It allows:
+** It allows:
 - Send and receive from equipment supporting "raw" SCPI and VXI-11
-- LeCroy oscilloscopes
+- LeCroy oscilloscopes (VICP)
 - Vötsch temperature chambers
 - Generate LaTeX measurement reports
 - Generate graphics with GNU Plot
+
+** Use
+
+*** VXI-11 
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/devel/utils/vxi") ;; Or where the VXI is
+(require 'gpib) ;; Load lib
+
+(gpib-new 'gen "192.168.17.125" "gpib0,10") ;; Make new instrument "GEN"
+;; Note the address 10
+
+(gen "*IDN?") ;; Do something
+(gen :terminate) ;; Release the allocated resources
+#+END_SRC
+
+*** SCPI (raw socket)
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/devel/utils") ;; Or where the lib is
+(require 'scpi) ;; Load lib
+
+(scpi-new 'analyser "192.168.2.30") ;; Make new instrument "ANALYSER"
+
+(analyser "*IDN?") ;; Do Something, for example get a screenshot
+(analyser ":HCOP:DEV:LANG1 PNG; *WAI")
+(analyser ":MMEM:NAME \'C:\\R_S\\INSTR\\USER\\PRINT1.PNG\'; *WAI")
+(analyser ":HCOP:IMM1; *WAI")
+(analyser :cmd-to-file "screen.png" ":MMEM:DATA? 'C:\\R_S\\INSTR\\USER\\PRINT1.PNG'")
+
+(analyser :terminate) ;; Release the allocated resources
+#+END_SRC
+
+*** LeCroy Oscilloscopes (VICP)
+
+This is differente because those scopes have some propietary
+interface, which is more convenient than SCPI.
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/devel/utils") ;; Or where the lib is
+(require 'vicp) ;; Load lib
+
+(vicp-new 'osc "192.168.1.1")
+
+(osc "%s" "*IDN?")
+(osc :init-default)
+(osc :snapshot "./test.png")
+(osc :cmd-to-file "wave-c1.lwf" "c%d:WF? ALL" 1)
+(osc :cmd-to-file "wave-c2.lwf" "c%d:WF? ALL" 2)
+(osc :cmd-to-file "wave-c2.lwf" "c%d:WF? ALL" 3)
+(osc :cmd-to-file "wave-c2.lwf" "c%d:WF? ALL" 4)
+
+(osc :terminate)
+#+END_SRC
+
+*** Reporting -- LaTeX must be installed in the system
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/devel/utils") ;; Or where the VXI is
+(require 'report) ;; Load lib
+
+(report-new 'my-rep "/tmp/my-rep.org")
+(my-rep :clear) ;; clear file if it existed
+(my-rep :title "Hello world")
+(my-rep :picture :file "/tmp/pic.png")
+(my-rep :save)
+(my-rep :export-pdf)
+
+(my-rep :terminate)
+#+END_SRC
+
+*** Graphics -- GNU Plot must be installed in the system
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/devel/utils") ;; Or where the VXI is
+(require 'plotter) ;; Load lib
+
+TBD
+
+(my-rep :terminate)
+#+END_SRC
+
+*** Temp chamber
+
+Maybe better do not use. Deprecated. I'm not even sure for what models
+it would work. There is an usage example in the code. No warranty.

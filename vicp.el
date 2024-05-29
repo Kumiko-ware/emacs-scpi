@@ -20,7 +20,7 @@
 ;; (osc :terminate)
 ;;
 ;; Recommended use: STOP [CONFIG] OPC? [ARM or TRMD SINGLE] WAIT [Read data]
-;; Ftom page 36 of LECROY X-STREAM OSCILLOSCOPES - REMOTE CONTROL MANUAL - FEB05
+;; From page 36 of LECROY X-STREAM OSCILLOSCOPES - REMOTE CONTROL MANUAL - FEB05
 ;; 
 
 ;;--------:<--------:<--------:<--------:<--------:<------->:<-----|--:<--------

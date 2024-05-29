@@ -28,7 +28,7 @@ Other commands:
 
 \(NAME :clear) deletes all file contents.
 \(NAME :title) defines the title of the report.
-\(NAME :picture :file<file> [:caption <caption>] [:label <label>]
+\(NAME :picture :file <file> [:caption <caption>] [:label <label>]
 [:latex-ops <options>] [:html-ops <options>]) inserts a picture
 from file with optional caption, label (for LaTeX references) and
 options.  For the possible latex-ops and html-ops see the ORG
